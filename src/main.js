@@ -279,6 +279,6 @@ canvasElement.addEventListener("touchmove", function (e) {
   mouse.yPosition = touch.pageY;
 });
 
-canvasElement.addEventListener("orientationchange", function () {
+window.addEventListener("orientationchange", function () {
   setup();
 });
