@@ -281,4 +281,5 @@ canvasElement.addEventListener("touchmove", function (e) {
 
 window.addEventListener("orientationchange", function () {
   location.reload();
+  leftPaddle.height = rightPaddle = leftPaddle.height / 3;
 });
