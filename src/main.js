@@ -37,7 +37,7 @@ const leftPaddle = {
   xPosition: gapX,
   yPosition: 100,
   width: line.width,
-  height: 200,
+  height: field.height / 5,
 
   _move: function () {
     const smoothFactor = 0.1;
@@ -66,7 +66,7 @@ const leftPaddle = {
 
 const rightPaddle = {
   xPosition: field.width - line.width - gapX,
-  yPosition: 160,
+  yPosition: field.height / 2 - leftPaddle.height / 2,
   width: leftPaddle.width,
   height: leftPaddle.height,
   speed: 5,
@@ -139,7 +139,8 @@ const ball = {
   xPosition: 300,
   yPosition: 200,
   radius: 20,
-  speed: 7,
+  speed: 5,
+  maxSpeed: 15,
   directionX: 1,
   directionY: -1,
 
@@ -186,7 +187,9 @@ const ball = {
   },
 
   _speedUp: function () {
-    this.speed += 2;
+    this.speed += 3;
+
+    this.speed = Math.min(this.speed, this.maxSpeed);
   },
 
   _scoreChange: function () {
@@ -195,13 +198,6 @@ const ball = {
 
     this.xPosition = field.width / 2;
     this.yPosition = field.height / 2;
-
-    if (score.player == 5 || score.computer == 5) {
-      score.computer = 0;
-      score.player = 0;
-
-      this.speed = 5;
-    }
   },
 
   _move: function () {
@@ -279,6 +275,6 @@ canvasElement.addEventListener("touchmove", function (e) {
   mouse.yPosition = touch.pageY;
 });
 
-window.addEventListener("orientationchange", function () {
+window.addEventListener("resize", function () {
   location.reload();
 });
