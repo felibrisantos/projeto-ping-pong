@@ -280,5 +280,5 @@ canvasElement.addEventListener("touchmove", function (e) {
 });
 
 window.addEventListener("orientationchange", function () {
-  setup();
+  location.reload();
 });
