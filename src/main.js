@@ -40,12 +40,11 @@ const leftPaddle = {
   height: 200,
 
   _move: function () {
-    const smoothFactor = 0.1; // Ajuste conforme necessário
+    const smoothFactor = 0.1;
 
     const deltaY = mouse.yPosition - (this.yPosition + this.height / 2);
     this.yPosition += deltaY * smoothFactor;
 
-    // Limite superior e inferior para garantir que a raquete não ultrapasse os limites do campo
     this.yPosition = Math.max(
       0,
       Math.min(field.height - this.height, this.yPosition)
@@ -74,9 +73,10 @@ const rightPaddle = {
 
   _move: function () {
     const smoothFactor = 0.1;
+    const errorFactor = Math.random() > 0.95 ? 0.5 : 1; // 5% de chance de mover-se mais devagar
 
     const deltaY = ball.yPosition - (this.yPosition + this.height / 2);
-    this.yPosition += deltaY * smoothFactor;
+    this.yPosition += deltaY * smoothFactor * errorFactor;
 
     this.yPosition = Math.max(
       0,
@@ -87,7 +87,7 @@ const rightPaddle = {
   },
 
   _accelerate: function () {
-    const accelerationFactor = 0.3;
+    const accelerationFactor = 0.1;
 
     this.speed += ball.speed * accelerationFactor;
 
@@ -191,11 +191,10 @@ const ball = {
 
   _scoreChange: function () {
     this._speedUp();
+    this._reverseX();
 
     this.xPosition = field.width / 2;
     this.yPosition = field.height / 2;
-
-    this._reverseX();
 
     if (score.player == 5 || score.computer == 5) {
       score.computer = 0;
@@ -232,8 +231,6 @@ const ball = {
 function setup() {
   canvasElement.width = canvasContext.width = field.width;
   canvasElement.height = canvasContext.height = field.height;
-
-  leftPaddle.height = rightPaddle.height = field.width / 10;
 }
 
 function draw() {
@@ -280,8 +277,4 @@ canvasElement.addEventListener("touchmove", function (e) {
 
   mouse.xPosition = touch.pageX;
   mouse.yPosition = touch.pageY;
-});
-
-window.addEventListener("orientationchange", function () {
-  setup();
 });
