@@ -73,7 +73,7 @@ const rightPaddle = {
 
   _move: function () {
     const smoothFactor = 0.1;
-    const errorFactor = Math.random() > 0.95 ? 0.5 : 1; // 5% de chance de mover-se mais devagar
+    const errorFactor = Math.random() > 0.95 ? 0.5 : 1;
 
     const deltaY = ball.yPosition - (this.yPosition + this.height / 2);
     this.yPosition += deltaY * smoothFactor * errorFactor;
@@ -277,4 +277,8 @@ canvasElement.addEventListener("touchmove", function (e) {
 
   mouse.xPosition = touch.pageX;
   mouse.yPosition = touch.pageY;
+});
+
+canvasElement.addEventListener("orientationchange", function () {
+  setup();
 });
